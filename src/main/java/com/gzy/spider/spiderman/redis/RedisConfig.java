@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 public class RedisConfig extends CachingConfigurerSupport {
 
 
-    @Bean
+   /* @Bean
     public KeyGenerator keyGenerator(){
 
         return  new KeyGenerator() {
@@ -34,13 +34,13 @@ public class RedisConfig extends CachingConfigurerSupport {
             }
         };
 
-    }
+    }*/
 
    /* @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
+    public CacheManager cacheManager(RedisTemplate<?,?> redisTemplate) throws Exception {
+        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        return cacheManager;
 
-        return redisCacheManager;
 
     }*/
 }

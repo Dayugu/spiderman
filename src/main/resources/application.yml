@@ -2,7 +2,8 @@ server:
   port: 8180
 spring:
   redis:
-    host: 192.168.40.16 #redis地址
+    #host: 192.168.40.16 #redis地址(乾道)
+    host: 192.168.199.200
     port: 6379  #端口
     password:   #密码
     jedis:

@@ -1,6 +1,7 @@
 package redis;
 
 import com.gzy.spider.spiderman.SpidermanApplication;
+import com.gzy.spider.spiderman.service.RedisService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.gzy.spider.spiderman.entity.User;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.Resource;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -23,6 +22,9 @@ public class TestRedis {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private RedisService redisService;
 
     @Test
     public void testString(){
@@ -99,11 +101,11 @@ public class TestRedis {
     public void testHash(){
         HashOperations hash = redisTemplate.opsForHash();
 
-        //hash.put("hash","you","you");
-        //hash.put("hash","hello","hello");
-        //hash.put("hash","hello2","hello world");
-        //String value = (String)hash.get("hash", "hello");
-        //System.out.println("value:"+value);
+        hash.put("hash","you","you");
+        hash.put("hash","hello","hello");
+        hash.put("hash","hello2","hello world");
+        String value = (String)hash.get("hash", "hello");
+        System.out.println("value:"+value);
 
         Set hash1 = hash.keys("hash");//返回指定哈希表key的所有域
         Iterator iterator = hash1.iterator();
@@ -117,7 +119,7 @@ public class TestRedis {
         });
 
         List values = hash.values("hash");
-        values.forEach(value ->{
+        values.forEach(val ->{
             System.out.println("method:values() key:hash value: "+value);
         });
 
@@ -144,11 +146,11 @@ public class TestRedis {
     public void testSet(){
         SetOperations setOperations = redisTemplate.opsForSet();
 
-        //setOperations.add("setNum","1");
-        //setOperations.add("setNum","2");
-        setOperations.add("setNum","3");
+        //setOperations.add("setNum1","1");
+        setOperations.add("setNum1","2");
+        //setOperations.add("setNum1","3");
 
-        Set setNum = setOperations.members("setNum");
+        Set setNum = setOperations.members("setNum1");
         Iterator iterator = setNum.iterator();
         while (iterator.hasNext()){
             System.out.println("set method:members() values:"+iterator.next());
@@ -203,9 +205,74 @@ public class TestRedis {
         });
 
 
+
+
+
     }
 
 
+    @Test
+    public void testServiceString(){
+        Object sex = redisService.get("sex");
+        System.out.println(sex.toString());
+    }
+
+
+    @Test
+    public void testRedisServiceSet(){
+        String key = "ip";
+        Set set = new HashSet();
+        //set.add("221.228.17.172:8181");
+        //set.add("219.141.153.35:80");
+        //set.add("219.141.153.38:80");
+        /*set.add("118.190.95.43:9001");
+        set.add("139.129.99.9:3128");*/
+
+        //String ip = "221.228.17.172:8181";
+        //String ip = "219.141.153.35:80";
+        //String ip = "118.190.95.43:9001";
+        //String ip = "219.141.153.38:80";
+        String ip = "139.129.99.9:3128";
+
+        //redisService.remove(key);
+
+        redisService.setAdd(key,ip);
+
+        Set<Object> ips = redisService.setMembers(key);
+
+        System.out.println("-----------"+ips.size());
+
+        ips.forEach(i ->{
+            System.out.println(i);
+        });
+
+    }
+
+
+    @Test
+    public void test(){
+
+        Set<Object> ips = redisService.setMembers("ip");
+
+        ips.forEach(ip -> System.out.println(ip));
+    }
+
+
+    /**
+     * 随机输出set中一个元素
+     */
+    @Test
+    public void testSetRandomMembers(){
+
+        String key = "ip";
+
+        SetOperations setOperations = redisTemplate.opsForSet();
+
+        Object member = setOperations.randomMember(key);
+
+        System.out.println(member);
+
+    }
 
 
 
