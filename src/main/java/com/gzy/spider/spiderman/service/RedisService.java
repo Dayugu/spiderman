@@ -174,6 +174,68 @@ public class RedisService {
     }
 
     /**
+     * 批量插入set
+     * @param key
+     * @param list
+     * @return
+     */
+    public boolean sset(String key , List<Object> list){
+        SetOperations<String, Object> set = redisTemplate.opsForSet();
+        boolean result = false;
+        try{
+
+            list.forEach(val ->{
+                set.add(key,val);
+            });
+            result = true;
+        }catch (Exception e){
+            logger.error("set error: key {}, value {}",key,list,e);
+        }
+        return result;
+    }
+
+    /**
+     * 从set中随机取length个元素
+     * @param key
+     * @param length
+     * @return
+     */
+    public List<Object> srandomMembers(String key , long length ){
+        SetOperations setOperations = redisTemplate.opsForSet();
+        return setOperations.randomMembers(key,length);
+    }
+
+    /**
+     * 从set中随机取一个元素返回
+     * @param key
+     * @return
+     */
+    public Object srandomMember(String key ){
+
+        SetOperations setOperations = redisTemplate.opsForSet();
+        return setOperations.randomMember(key);
+
+    }
+
+    /**
+     * 删除set中指定元素
+     * @param key
+     * @param val
+     * @return
+     */
+    public boolean sremoveMember(String key,Object val){
+        SetOperations<String, Object> set = redisTemplate.opsForSet();
+        boolean result = false;
+        try{
+            set.remove(key, val);
+            result = true;
+        }catch (Exception e ){
+            logger.error("set error: key {}, value {}",key,val,e);
+        }
+        return result;
+    }
+
+    /**
      * set get
      * @param key
      * @return

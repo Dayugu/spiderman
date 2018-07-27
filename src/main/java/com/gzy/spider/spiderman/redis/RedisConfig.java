@@ -12,6 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.lang.reflect.Method;
 
+/**
+ * redistemplate访问redis
+ */
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {

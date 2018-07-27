@@ -274,6 +274,73 @@ public class TestRedis {
 
     }
 
+    @Test
+    public void testPatchSet(){
+
+        List<String> ipList = new ArrayList<>();
+        ipList.add("118.190.95.35:9001");
+        ipList.add("114.232.163.116:18118");
+        ipList.add("111.155.116.234:8123");
+        ipList.add("115.223.93.252:8010");
+        ipList.add("114.229.125.223:808");
+        ipList.add("139.129.99.9:3128");
+        ipList.add("114.217.240.144:3128");
+        ipList.add("218.60.8.98:3129");
+
+        String key ="proxy_ip";
+        //删除已存在的key及其对应Val
+        //redisTemplate.delete(key);
+        SetOperations setOperations = redisTemplate.opsForSet();
+
+        //批量插入set
+        ipList.forEach(ip ->{
+            System.out.println("==ip:"+ip);
+            setOperations.add(key,ip);
+        });
+
+        /*for (String ip : ipList) {
+            System.out.println("===ip:"+ip);
+            setOperations.add(key,ip);
+        }*/
+
+
+        System.out.println("-=-=-=-=-=查询set中所有的元素=-=-=-=-=");
+        //查询所有的IP
+        Set members = setOperations.members(key);
+        members.forEach(ip ->{
+            System.out.println(ip);
+        });
+        System.out.println("----------------随机生成一个IP---------------");
+        //从Set中随机生成一个ip
+        List list = setOperations.randomMembers(key, 1);
+        list.forEach(ip -> System.out.println(ip));
+
+
+    }
+
+    @Test
+    public void testServicerandomMember(){
+        String key ="proxy_ip";
+        Object val = redisService.srandomMember(key);
+        System.out.println("key:"+val);
+    }
+
+    @Test
+    public void removeSetMemeber(){
+        String key ="proxy_ip";
+        Object val = redisService.srandomMember(key);
+
+        System.out.println(" remove Object: "+val);
+
+        redisService.sremoveMember(key,val);
+
+        Set<Object> objects = redisService.setMembers(key);
+
+        objects.forEach(value -> System.out.println(" values: "+value));
+
+
+    }
+
 
 
 
