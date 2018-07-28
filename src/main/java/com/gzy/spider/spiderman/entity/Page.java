@@ -15,6 +15,8 @@ public class Page implements Serializable{
 
     private String content;//页面内容
 
+    private String proxyIP;
+
     public String getUrl() {
         return url;
     }
@@ -39,12 +41,20 @@ public class Page implements Serializable{
         this.host = host;
     }
 
-    public String getUseAgent() {
+    public String getUserAgent() {
         return userAgent;
     }
 
-    public void setUseAgent(String userAgent) {
+    public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
+    }
+
+    public String getProxyIP() {
+        return proxyIP;
+    }
+
+    public void setProxyIP(String proxyIP) {
+        this.proxyIP = proxyIP;
     }
 
     @Override
@@ -54,6 +64,7 @@ public class Page implements Serializable{
                 ", host='" + host + '\'' +
                 ", userAgent='" + userAgent + '\'' +
                 ", content='" + content + '\'' +
+                ", proxyIP='" + proxyIP + '\'' +
                 '}';
     }
 }

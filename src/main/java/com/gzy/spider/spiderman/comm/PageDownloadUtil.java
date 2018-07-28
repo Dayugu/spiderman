@@ -36,22 +36,24 @@ public class PageDownloadUtil {
     /**
      * 从redis代理IP仓库中随机获取代理IP
      */
-    public static HttpClientBuilder getProxyIp(String url,String ip,boolean flag){
+    public static HttpClientBuilder getProxyIp(Page page,boolean flag){
         HttpClientBuilder builder = HttpClients.custom();
         if(flag){
             //-----获取动态IP----
             //redisService.srandomMember(proxyIp);
-            List<String> srandmember = RedisUtil.srandmember("proxy", 1);
+            List<String> srandmember = RedisUtil.srandmember(proxyIp, 1);
+            String ip="";
             if(srandmember.size()>0){
                 ip=srandmember.get(0);
             }
-
+            page.setProxyIP(ip);
             String[] split = ip.split(":");
             String proxy_ip = split[0];
             Integer proxy_port = Integer.parseInt(split[1]);
             HttpHost host = new HttpHost(proxy_ip,proxy_port);
+            builder.setProxy(host);
         }
-        //builder.setProxy(host);
+
         //-----获取动态IP结束
         return builder;
 
@@ -59,13 +61,13 @@ public class PageDownloadUtil {
 
     public static Page downloadPage(Page page){
 
-            //Document document = Jsoup.connect(page.getUrl()).header("Host", page.getHost()).userAgent(page.getUseAgent()).get();
             //设置cook信息
             HttpGet request = new HttpGet(page.getUrl());
             request.addHeader("Host",page.getHost());
-            request.setHeader("User-Agent",page.getUseAgent());
-
-            HttpClientBuilder builder = HttpClients.custom();
+            request.setHeader("User-Agent",page.getUserAgent());
+            //获取动态代理IP
+            String ip = "";
+            HttpClientBuilder builder = getProxyIp(page,true);
 
             CloseableHttpClient client = builder.build();
 
@@ -74,11 +76,19 @@ public class PageDownloadUtil {
                 HttpEntity entity = response.getEntity();
                 page.setContent(EntityUtils.toString(entity));
             } catch (HttpHostConnectException e){//如果当前代理IP不能使用，则将该IP从redisIP仓库中删除
+                //删除不能使用的代理IP
+                RedisUtil.srem(proxyIp,page.getProxyIP());
                 logger.error("HttpHostConnectException : PageDownloadUtil.downloadPage(),代理IP失效 ");
+
             } catch (ClientProtocolException e){
+                //删除不能使用的代理IP
+                RedisUtil.srem(proxyIp,page.getProxyIP());
                 logger.error("ClientProtocolException : PageDownloadUtil.downloadPage(),代理IP失效 ");
+
             } catch (IOException e){
+
                 logger.error("IOException: PageDownloadUtil.downloadPage()");
+
             }
 
             return page;
