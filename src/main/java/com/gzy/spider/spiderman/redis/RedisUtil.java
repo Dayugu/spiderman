@@ -226,6 +226,7 @@ public class RedisUtil {
 	 */
 	public static void srem(String key, String value) {
 		// TODO Auto-generated method stub
-		redis.srem(key, value);
+        System.out.println("删除set key:"+key+"value: "+value);
+        redis.srem(key, value);
 	}
 }

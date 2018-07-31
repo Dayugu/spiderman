@@ -30,9 +30,6 @@ public class PageDownloadUtil {
 
     private final static String proxyIp = "proxy_ip";//代理IP在redis缓存中的Key
 
-    @Resource
-    private RedisService redisService;
-
     /**
      * 从redis代理IP仓库中随机获取代理IP
      */
@@ -40,7 +37,6 @@ public class PageDownloadUtil {
         HttpClientBuilder builder = HttpClients.custom();
         if(flag){
             //-----获取动态IP----
-            //redisService.srandomMember(proxyIp);
             List<String> srandmember = RedisUtil.srandmember(proxyIp, 1);
             String ip="";
             if(srandmember.size()>0){
@@ -51,7 +47,10 @@ public class PageDownloadUtil {
             String proxy_ip = split[0];
             Integer proxy_port = Integer.parseInt(split[1]);
             HttpHost host = new HttpHost(proxy_ip,proxy_port);
+
             builder.setProxy(host);
+
+            //System.out.println("proxyId: "+proxy_ip+":"+proxy_port);
         }
 
         //-----获取动态IP结束
