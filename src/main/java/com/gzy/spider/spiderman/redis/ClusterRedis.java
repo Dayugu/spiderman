@@ -526,5 +526,15 @@ public class ClusterRedis extends BaseRedis {
 		this.jedis.srem(key, value);
 	}
 
+    /**
+     * 返回set集合大小
+     * @param key
+     * @return
+     */
+    @Override
+    public long scard(String key) {
+        return this.jedis.scard(key);
+    }
+
 
 }

@@ -229,4 +229,14 @@ public class RedisUtil {
         System.out.println("删除set key:"+key+"value: "+value);
         redis.srem(key, value);
 	}
+
+    /**
+     * 获取set中的元素数量
+     * @param key
+     * @return
+     */
+	public static long scard(String key){
+        return redis.scard(key);
+    }
+
 }

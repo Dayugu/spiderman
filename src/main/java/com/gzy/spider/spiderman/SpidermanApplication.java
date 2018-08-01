@@ -1,5 +1,6 @@
 package com.gzy.spider.spiderman;
 
+import com.gzy.spider.spiderman.comm.ProxyIPUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,30 +12,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @SpringBootApplication
 @RestController
 public class SpidermanApplication {
 
-	public static void main(String[] args) throws Exception{
+    static ExecutorService executeService = Executors.newFixedThreadPool(5);
+
+    public static void main(String[] args) throws Exception{
 
 	    SpringApplication.run(SpidermanApplication.class, args);
 
-        String url = "https://music.163.com/#/artist?id=12270575";
-        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
-        String host = "music.163.com";
-        Document document = Jsoup.connect(url).header("Host", host).userAgent("userAgent").get();
+        //检测代理IP的可用性
+       /* executeService.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Thread "+Thread.currentThread().getName());
 
-        System.out.println("------------");
-        System.out.println(document.toString());
-        System.out.println("------------");
-
-        Element elementById = document.getElementById("artist-top50");
-
-        if (elementById != null){
-            System.out.println("-----"+elementById.text());
-        }
-
-
+            }
+        });*/
+        ProxyIPUtil.checkProxyIp();
 
     }
 
@@ -52,6 +51,12 @@ public class SpidermanApplication {
         return "hello "+name;
     }
 
+
+    public void checkProxyIP(){
+
+
+
+    }
 
 
 }

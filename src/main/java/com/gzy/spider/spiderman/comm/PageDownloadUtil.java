@@ -50,7 +50,7 @@ public class PageDownloadUtil {
 
             builder.setProxy(host);
 
-            //System.out.println("proxyId: "+proxy_ip+":"+proxy_port);
+            System.out.println("proxyId: "+proxy_ip+":"+proxy_port);
         }
 
         //-----获取动态IP结束
@@ -73,7 +73,18 @@ public class PageDownloadUtil {
             try {
                 CloseableHttpResponse response = client.execute(request);
                 HttpEntity entity = response.getEntity();
-                page.setContent(EntityUtils.toString(entity));
+                String content = EntityUtils.toString(entity);
+                if (content.contains("很抱歉，你要查找的网页找不到")){
+                    System.out.println("当前线程："+Thread.currentThread().getName()+" 代理IP："+page.getProxyIP()+"失效");
+                    RedisUtil.srem(proxyIp,page.getProxyIP());
+                    logger.error(" Exception 网页找不到 : PageDownloadUtil.downloadPage(),代理IP失效 ");
+                }else {
+                    page.setContent(content);
+
+                    System.out.println("请求成功,代理IP："+page.getProxyIP());
+
+                }
+
             } catch (HttpHostConnectException e){//如果当前代理IP不能使用，则将该IP从redisIP仓库中删除
                 //删除不能使用的代理IP
                 RedisUtil.srem(proxyIp,page.getProxyIP());

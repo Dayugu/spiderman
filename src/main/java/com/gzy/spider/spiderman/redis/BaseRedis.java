@@ -118,6 +118,8 @@ public abstract class BaseRedis {
     public abstract List<String> srandmember(String key, Integer count);
     
     public abstract void srem(String key,String value);
+
+    public abstract long scard(String key);
     
     public static BaseRedis getRedis(){
     	Object redis = null;
