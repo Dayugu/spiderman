@@ -18,7 +18,12 @@ public interface PageDownloadService {
      */
     public Page updateProxyIp();
 
-
+    /**
+     * 檢查代理IP是否可用
+     * @param ipAndPort
+     * @return
+     */
+    public Page checkProxyIP(String ipAndPort);
 
 
 

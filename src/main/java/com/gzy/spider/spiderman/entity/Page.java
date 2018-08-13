@@ -17,6 +17,8 @@ public class Page implements Serializable{
 
     private String proxyIP;
 
+    private boolean flag = false;//proxyIp是否有效
+
     public String getUrl() {
         return url;
     }
@@ -55,6 +57,14 @@ public class Page implements Serializable{
 
     public void setProxyIP(String proxyIP) {
         this.proxyIP = proxyIP;
+    }
+
+    public boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
     @Override

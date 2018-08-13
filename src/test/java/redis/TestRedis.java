@@ -1,7 +1,6 @@
 package redis;
 
 import com.gzy.spider.spiderman.SpidermanApplication;
-import com.gzy.spider.spiderman.service.RedisService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(SpringRunner.class)
+/*@RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpidermanApplication.class)
 public class TestRedis {
 
@@ -77,10 +76,10 @@ public class TestRedis {
 
     }
 
-    /**
+    *//**
      * 测试redisTemplate 删除
      * 测试结果：redisTemplate测试通过，但是直接操作reids库仍然存在
-     */
+     *//*
     @Test
     public void testDelete(){
         ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -225,8 +224,8 @@ public class TestRedis {
         //set.add("221.228.17.172:8181");
         //set.add("219.141.153.35:80");
         //set.add("219.141.153.38:80");
-        /*set.add("118.190.95.43:9001");
-        set.add("139.129.99.9:3128");*/
+        *//*set.add("118.190.95.43:9001");
+        set.add("139.129.99.9:3128");*//*
 
         //String ip = "221.228.17.172:8181";
         //String ip = "219.141.153.35:80";
@@ -258,9 +257,9 @@ public class TestRedis {
     }
 
 
-    /**
+    *//**
      * 随机输出set中一个元素
-     */
+     *//*
     @Test
     public void testSetRandomMembers(){
 
@@ -298,10 +297,10 @@ public class TestRedis {
             setOperations.add(key,ip);
         });
 
-        /*for (String ip : ipList) {
+        *//*for (String ip : ipList) {
             System.out.println("===ip:"+ip);
             setOperations.add(key,ip);
-        }*/
+        }*//*
 
 
         System.out.println("-=-=-=-=-=查询set中所有的元素=-=-=-=-=");
@@ -341,16 +340,4 @@ public class TestRedis {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-}
+}*/

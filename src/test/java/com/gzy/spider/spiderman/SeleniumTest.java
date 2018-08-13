@@ -1,3 +1,4 @@
+/*
 package com.gzy.spider.spiderman;
 
 import com.gzy.spider.spiderman.redis.RedisUtil;
@@ -16,9 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+*/
 /**
  * selenium测试类
- */
+ *//*
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SeleniumTest {
@@ -44,16 +47,16 @@ public class SeleniumTest {
         //WebElement element = webDriver.findElement(By.xpath(".//*[@id='toplist']"));
         String pageSource = webDriver.getPageSource();
         //WebElement element = webDriver.findElement(By.id("content"));
-        if (pageSource.contains(ERROR_INFO)){
 
-        }
         System.out.println(pageSource);
         System.out.println("-----------------------------------");
-       /* List<WebElement> elements = element.findElements(By.cssSelector("div>div>table>tbody>tr"));
+       */
+/* List<WebElement> elements = element.findElements(By.cssSelector("div>div>table>tbody>tr"));
 
         elements.forEach(ele -> {
             System.out.println("歌曲列表："+ele.toString());
-        });*/
+        });*//*
+
 
 
         System.out.println("当前打开页面的标题是： "+ webDriver.getTitle());
@@ -64,7 +67,7 @@ public class SeleniumTest {
     public DesiredCapabilities setProxyIP(){
 
         List<String> list = RedisUtil.srandmember(KEY_PROXY_IP, 1);
-
+        //error 219.141.153.4:80  您所请求的网址（URL）无法获取
         String ipAndPort = list.size()>0 ? list.get(0):"";
         System.out.println("ipAndPort:"+ipAndPort);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
@@ -81,3 +84,4 @@ public class SeleniumTest {
 
 
 }
+*/

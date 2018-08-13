@@ -44,10 +44,5 @@ public class ProxyIPUtil {
         }
     }
 
-    public static void main(String[] args) {
-
-        ProxyIPUtil.checkProxyIp();
-
-    }
 
 }

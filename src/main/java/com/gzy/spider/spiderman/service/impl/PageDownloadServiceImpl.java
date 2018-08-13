@@ -35,7 +35,19 @@ public class PageDownloadServiceImpl implements PageDownloadService {
 
     }
 
+    @Override
+    public Page checkProxyIP(String ipAndPort) {
 
+        Page page = new Page();
+        page.setUrl("http://www.xicidaili.com/nn/");
+        page.setHost("www.xicidaili.com");
+        page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3298.4 Safari/537.36");
+        page.setProxyIP(ipAndPort);
+
+        return PageDownloadUtil.downloadPage(page);
+
+
+    }
 
 
 }

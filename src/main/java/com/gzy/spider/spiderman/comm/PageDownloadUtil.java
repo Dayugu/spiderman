@@ -3,7 +3,6 @@ package com.gzy.spider.spiderman.comm;
 
 import com.gzy.spider.spiderman.entity.Page;
 import com.gzy.spider.spiderman.redis.RedisUtil;
-import com.gzy.spider.spiderman.service.RedisService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -14,13 +13,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 
@@ -64,6 +59,7 @@ public class PageDownloadUtil {
             HttpGet request = new HttpGet(page.getUrl());
             request.addHeader("Host",page.getHost());
             request.setHeader("User-Agent",page.getUserAgent());
+            request.setHeader("Cache-Control","no-cache");
             //获取动态代理IP
             String ip = "";
             HttpClientBuilder builder = getProxyIp(page,true);
@@ -80,7 +76,7 @@ public class PageDownloadUtil {
                     logger.error(" Exception 网页找不到 : PageDownloadUtil.downloadPage(),代理IP失效 ");
                 }else {
                     page.setContent(content);
-
+                    page.setFlag(true);
                     System.out.println("请求成功,代理IP："+page.getProxyIP());
 
                 }
@@ -96,8 +92,9 @@ public class PageDownloadUtil {
                 logger.error("ClientProtocolException : PageDownloadUtil.downloadPage(),代理IP失效 ");
 
             } catch (IOException e){
-
+                RedisUtil.srem(proxyIp,page.getProxyIP());
                 logger.error("IOException: PageDownloadUtil.downloadPage()");
+                e.printStackTrace();
 
             }
 

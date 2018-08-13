@@ -430,6 +430,7 @@ public class ClusterRedis extends BaseRedis {
 
         try {
             result = this.jedis.lpush(key, values).longValue();
+
         } catch (Exception var6) {
             log.error("Redis lPush异常:{}", ExceptionUtils.getStackTrace(var6));
         }

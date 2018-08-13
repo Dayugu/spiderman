@@ -4,7 +4,7 @@ import com.gzy.spider.spiderman.comm.ProxyIPUtil;
 import com.gzy.spider.spiderman.entity.Page;
 import com.gzy.spider.spiderman.service.PageDownloadService;
 import com.gzy.spider.spiderman.service.ProcessPageService;
-import org.apache.commons.lang3.ThreadUtils;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +54,10 @@ public class ProcesTest {
 
         Page page = pageDownloadService.updateProxyIp();
 
-        //System.out.println("西刺网 content:"+page.getContent());
+        System.out.println("--------------頁面爬取結束 开始解析页面---------");
 
         processPageService.processProxyIP(page);
+
 
     }
 
@@ -65,11 +66,16 @@ public class ProcesTest {
      */
     @Test
     public void testWangyiyun(){
+/*
         Page page = new Page();
         page.setUrl("http://music.163.com/m/song?id=60192");
         page.setHost("music.163.com");
         page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3298.4 Safari/537.36");
-
+*/
+        Page page = new Page();
+        page.setUrl("https://bj.lianjia.com/zufang/");
+        page.setHost("bj.lianjia.com");
+        page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3298.4 Safari/537.36");
         pageDownloadService.downloadPage(page);
 
         System.out.println("-------------------------");
